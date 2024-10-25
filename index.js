@@ -2,6 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const videoRoutes = require('./routes/videoRoutes');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 // Load environment variables
 dotenv.config();
@@ -10,6 +11,8 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+app.use(cors());
 
 // Middleware to parse JSON
 app.use(express.json());
