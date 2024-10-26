@@ -12,7 +12,10 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin:'*',
+    methods:['GET','POST','PUT','DELETE'],
+}));
 
 // Middleware to parse JSON
 app.use(express.json());
