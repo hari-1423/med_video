@@ -12,13 +12,22 @@ connectDB();
 
 const app = express();
 
-app.use(cors({
-    origin:'*',
-    methods:['GET','POST','PUT','DELETE'],
-}));
+// Middleware to set CORS headers
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // Allow all origins
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); // Allowed methods
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
+    res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials
+  
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+      return res.sendStatus(204); // No Content
+    }
+    
+    next(); // Proceed to the next middleware/route handler
+  });
+  
 
-// Middleware to parse JSON
-app.use(express.json());
 
 // Root route (this should be placed before other routes)
 app.get('/', (req, res) => {
