@@ -1,22 +1,25 @@
 const Video = require('../models/Video');
 
-// Fetch videos with pagination
+// Fetch all videos with optional search functionality
 exports.getVideos = async (req, res) => {
   try {
-    const { page = 1, limit = 12 } = req.query;  // Pagination parameters
-    const videos = await Video.find()
-      .sort({ publishedAt: -1 })  // Sort by most recent
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .exec();
+    const { search = '' } = req.query;  // Extract search parameter
 
-    // Get total document count
-    const count = await Video.countDocuments();
+    // Construct the query to filter videos based on title or description
+    const query = {
+      $or: [
+        { title: { $regex: search, $options: 'i' } },  // Case-insensitive match for title
+        { description: { $regex: search, $options: 'i' } }  // Case-insensitive match for description
+      ]
+    };
+
+    // Fetch all videos matching the query without pagination
+    const videos = await Video.find(query).sort({ publishedAt: -1 }).exec();
 
     res.json({
       videos,
-      totalPages: Math.ceil(count / limit),
-      currentPage: page,
+      totalPages: 1,  // All results on one page
+      currentPage: 1,  // Current page is always 1 in this case
     });
   } catch (err) {
     console.error(err);
