@@ -15,7 +15,7 @@ const app = express();
 app.use((req, res, next) => {
     console.log(`Received request: ${req.method} ${req.url}`);
     
-    res.header('Access-Control-Allow-Origin', 'http://d1nc7vcdzwyc8p.cloudfront.net'); // Allow specific origin
+    
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); // Allowed methods
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
     res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials
