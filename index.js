@@ -22,7 +22,6 @@ app.use((req, res, next) => {
     if (req.method === 'OPTIONS') {
         return res.sendStatus(204); // No Content
     }
-  
     next(); // Proceed to the next middleware/route handler
 });
 
